@@ -11,10 +11,10 @@ public class FibRecurDP {
         /* define constants */
         static long MAXVALUE =  2000000000;
         static long MINVALUE = -2000000000;
-        static int numberOfTrials = 50;
+        static int numberOfTrials = 100;
         static int MAXINPUTSIZE  = (int) Math.pow(1.5,28);
         static int MININPUTSIZE  =  1;
-        static int Nums = 100;
+        static int Nums = 90;
         static long fibResult = 0;
         // static int SIZEINCREMENT =  10000000; // not using this since we are doubling the size each time
 
@@ -66,9 +66,11 @@ public class FibRecurDP {
 
             /* for each size of input we want to test: in this case starting small and doubling the size each time */
             for(int inputSize=0;inputSize<=Nums; inputSize++) {
-
+                //declare two arrays - one for fibonacci numbers and another one to record if the fib number is
+                //available 
                 fibNumberTable = new long[inputSize + 1];
                 fibAvailable = new int[inputSize + 1];
+                //Run test to verify results
                 verifyFib(inputSize);
 
                 // progress message...
@@ -126,6 +128,7 @@ public class FibRecurDP {
 
                 }
                 x++;
+                //function to get the number of bits required for input number
                 int countingbits = countBits(inputSize);
                 /* print data for this size of input */
                 resultsWriter.printf("%6d %6d %15.2f %20d \n",inputSize, countingbits, averageTimePerTrialInBatch, fibResult); // might as well make the columns look nice
@@ -145,13 +148,15 @@ public class FibRecurDP {
         public static long Fib(int x){
 
             long result = 0;
+            //if x < 2 return 1 as Fib number
             if(x < 2){
                 result = 1;
-            }
+            } //check if the fibonacci number has been calculated before and if it has, return the number
             else if(fibAvailable[x] == 1){
                 result = fibNumberTable[x];
             }
-            else{
+            else{ //if number has never been calculated before, add the two fib numbers together and put the result
+                //in the array keeping track of the fib numbers and a one if the array keeping track of which one has already been calculated
                 result = Fib(x-1) + Fib(x-2);
                 fibNumberTable[x] = result;
                 fibAvailable[x] = 1;
@@ -160,20 +165,23 @@ public class FibRecurDP {
             return result;
         }
 
-
-
-        static int countBits(int n)
-        {
-            int count = 0;
-            if(n == 0){
-                count = 1;
-            }
-            while (n != 0)
-            {
-                count++;
-                n >>= 1;
-            }
-            //System.out.println("number of bits = " + count);
-            return count;
+    //count the number of bits required for current fib number
+    static int countBits(int n)
+    {
+        int count = 0;
+        //if n == 0, count will be 1
+        if(n == 0){
+            count = 1;
         }
+        //loop while n does not equal 0
+        while (n != 0)
+        {
+            //each loop add 1 to count
+            count++;
+            //shift n to the left by 1
+            n >>= 1;
+        }
+        //System.out.println("number of bits = " + count);
+        return count;
+    }
 }
