@@ -61,13 +61,13 @@ public class FibRecurDP {
             ThreadCpuStopWatch TrialStopwatch = new ThreadCpuStopWatch(); // for timing an individual trial
 
             //add headers to text file
-            resultsWriter.println("#X(Value)  N(Size)  AverageTime    FibNumber"); // # marks a comment in gnuplot data
+            resultsWriter.println("#X(Value)  N(Size)  AverageTime    FibNumber    NumberOfTrials"); // # marks a comment in gnuplot data
             resultsWriter.flush();
 
             /* for each size of input we want to test: in this case starting small and doubling the size each time */
             for(int inputSize=0;inputSize<=Nums; inputSize++) {
                 //declare two arrays - one for fibonacci numbers and another one to record if the fib number is
-                //available 
+                //available
                 fibNumberTable = new long[inputSize + 1];
                 fibAvailable = new int[inputSize + 1];
                 //Run test to verify results
@@ -131,7 +131,7 @@ public class FibRecurDP {
                 //function to get the number of bits required for input number
                 int countingbits = countBits(inputSize);
                 /* print data for this size of input */
-                resultsWriter.printf("%6d %6d %15.2f %20d \n",inputSize, countingbits, averageTimePerTrialInBatch, fibResult); // might as well make the columns look nice
+                resultsWriter.printf("%6d %6d %15.2f %20d \n",inputSize, countingbits, averageTimePerTrialInBatch, fibResult, numberOfTrials); // might as well make the columns look nice
                 resultsWriter.flush();
                 System.out.println(" ....done.");
             }
